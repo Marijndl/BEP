@@ -95,7 +95,12 @@ if __name__ == "__main__":
 
         # Fitting a line to the mean:
         coeff = np.polyfit(df.index, df[['M1', 'M2', 'M3']].mean(axis=1), 2)
-        y_fit = coeff[0] * (df.index ** 2) + coeff[1] * df.index + coeff[2]
+        coeff = np.flip(coeff)
+
+        # Make the fitting work for all orders
+        y_fit = [0]*len(df.index)
+        for order in range(len(coeff)):
+            y_fit = y_fit + coeff[order] * (df.index ** order)
         ax.plot(df.index, y_fit)
 
         # Formatting
@@ -105,7 +110,7 @@ if __name__ == "__main__":
         plt.legend(['M1', 'M2', 'M3', 'mean fitted'])
 
     fig.show()
-    fig.savefig('Round_1_v2.png')
+    # fig.savefig('Round_1_v2.png')
 
     # Mean and standarad deviation from all samples at all frequencies stored to csv file
     df_all_samples_mean = pd.DataFrame(all_samples_mean).set_index('Frequency')
@@ -133,6 +138,6 @@ if __name__ == "__main__":
     plt.title('Frequency sweep of all samples, mean plus standard deviation')
     plt.legend(list(df_all_samples_mean.columns))
     fig2.show()
-    fig2.savefig('Round_1_all.png',dpi=200)
+    # fig2.savefig('Round_1_all.png',dpi=200)
 
     pass

@@ -95,7 +95,12 @@ if __name__ == "__main__":
 
         # Fitting a line to the mean:
         coeff = np.polyfit(df.index, df[['M1', 'M2', 'M3']].mean(axis=1), 2)
-        y_fit = coeff[0] * (df.index ** 2) + coeff[1] * df.index + coeff[2]
+        coeff = np.flip(coeff)
+
+        # Make the fitting work for all orders
+        y_fit = [0] * len(df.index)
+        for order in range(len(coeff)):
+            y_fit = y_fit + coeff[order] * (df.index ** order)
         ax.plot(df.index, y_fit)
 
         # Formatting
