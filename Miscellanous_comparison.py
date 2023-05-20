@@ -1,25 +1,28 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.interpolate import interp1d
-import pandas as pd
-from math import pi
-from scipy import signal
-from scipy.signal import savgol_filter
 import os
+from math import pi
+
+import matplotlib.pyplot as plt
+import pandas as pd
 
 eps0 = 8.8542e-12
 
+
 def read_file(file):
+    '''
+            Function to read .prn files that are outputted by the VNA.
+            Will return a list of the frequencies and a list of the corresponding conductivities.
+            Conductivity is calculated with: e'' * eps0 * 2pi * frequency
+    '''
     freq = []
     e1 = []
     e2 = []
     cond = []
 
-    with open(f''+file) as data_file:
+    with open(f'' + file) as data_file:
         data_file = data_file.readlines()
-        for i in range(1,len(data_file)):
+        for i in range(1, len(data_file)):
             result = data_file[i].split()
-            freq.append(int(float(result[0])/1e6))
+            freq.append(int(float(result[0]) / 1e6))
             e1.append(float(result[1]))
             e2.append(float(result[2]))
             cond.append(float(result[2]) * eps0 * 2 * pi * float(result[0]))
@@ -51,19 +54,15 @@ if __name__ == "__main__":
             else:
                 dicts[sample][parts[-2][1:]] = cond
 
-    # dataframes = {}
-    # all_samples_mean = {'Frequency': dicts[1]['Frequency']}
-    # all_samples_std = {'Frequency': dicts[1]['Frequency']}
-
-    #Plotting:
-    fig = plt.figure(figsize=(30,20))
+    # Plotting:
+    fig = plt.figure(figsize=(30, 20))
     counter = 1
 
-    for name,dict_ in dicts.items():
+    for name, dict_ in dicts.items():
         df = pd.DataFrame(dict_).set_index('Frequency')
-        ax = plt.subplot(2,3,counter) #give the plot the right place in the figure
+        ax = plt.subplot(2, 3, counter)  # give the plot the right place in the figure
 
-        #subplot formatting
+        # subplot formatting
         ax.title.set_text("Sample " + str(name))
         for column in df.columns:
             ax.plot(df[column])
@@ -73,26 +72,8 @@ if __name__ == "__main__":
         plt.ylabel('Conductivity')
         plt.legend(list(df.columns))
 
-        #Calculating of mean between samples.
-        # df['mean'] = df.mean(axis=1)
-        # all_samples_mean[name] = df['mean'].tolist()
-        # df['standard deviation'] = df.loc[:, df.columns != 'mean'].std(axis=1)
-        # all_samples_std[name] = df['standard deviation'].tolist()
-
         counter += 1
 
     fig.show()
     fig.savefig('Misc2.png')
-
-    #Mean and standarad deviation from all samples at all frequencies
-    # df_all_samples_mean = pd.DataFrame(all_samples_mean).set_index('Frequency')
-    # df_all_samples_mean = df_all_samples_mean.reindex(sorted(df_all_samples_mean.columns), axis=1)
-    # df_all_samples_mean.to_csv('all_samples_mean2.csv',sep=';')
-    #
-    # df_all_samples_std = pd.DataFrame(all_samples_std).set_index('Frequency')
-    # df_all_samples_std = df_all_samples_std.reindex(sorted(df_all_samples_std.columns), axis=1)
-    # df_all_samples_std.to_csv('all_samples_std2.csv',sep=';')
     pass
-
-
-
