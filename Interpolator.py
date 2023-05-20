@@ -56,11 +56,13 @@ if __name__ == "__main__":
         if os.path.isfile(f):
             file_names.append(filename)
             print(filename)
-            conductivities.append(interpolate(f))
+            cond = str(interpolate(f)).replace('.',',') #For excel :(
+            conductivities.append(cond)
 
+    #Saving the conductivities in csv file.
     dict_temp = {'file name': file_names, 'conductivity': conductivities}
     df = pd.DataFrame(dict_temp)
-    df.to_csv('Conductivities_VNA_11_05_2023')
+    df.to_csv('Conductivities_VNA_11_05_2023', sep=';')
     print(df.head())
 
 
