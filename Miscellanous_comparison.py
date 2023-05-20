@@ -2,6 +2,7 @@ import os
 from math import pi
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 eps0 = 8.8542e-12
@@ -68,9 +69,14 @@ if __name__ == "__main__":
             ax.plot(df[column])
             print(column)
 
+        # Fitting a line to the mean:
+        coeff = np.polyfit(df.index, df.mean(axis=1), 2)
+        y_fit = coeff[0] * (df.index ** 2) + coeff[1] * df.index + coeff[2]
+        ax.plot(df.index, y_fit)
+
         plt.xlabel('Frequency [Mhz]')
-        plt.ylabel('Conductivity')
-        plt.legend(list(df.columns))
+        plt.ylabel('Conductivity [S/m]')
+        plt.legend(list(df.columns)+['mean fitted'])
 
         counter += 1
 
