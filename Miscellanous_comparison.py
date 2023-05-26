@@ -70,7 +70,7 @@ if __name__ == "__main__":
             print(column)
 
         # Fitting a line to the mean:
-        coeff = np.polyfit(df.index, df[['M1', 'M2', 'M3']].mean(axis=1), 2)
+        coeff = np.polyfit(df.index, df.mean(axis=1), 2)
         coeff = np.flip(coeff)
 
         # Make the fitting work for all orders
@@ -79,6 +79,10 @@ if __name__ == "__main__":
             y_fit = y_fit + coeff[order] * (df.index ** order)
         ax.plot(df.index, y_fit)
 
+        #Finding conductivities at 128 Mhz
+        cond_128 = np.interp(128, df.index, y_fit)
+        print(name+" has at 128 Mhz the cond: "+str(cond_128))
+
         plt.xlabel('Frequency [Mhz]')
         plt.ylabel('Conductivity [S/m]')
         plt.legend(list(df.columns)+['mean fitted'])
@@ -86,5 +90,5 @@ if __name__ == "__main__":
         counter += 1
 
     fig.show()
-    fig.savefig('Misc2.png')
+    #fig.savefig('Misc2.png')
     pass
