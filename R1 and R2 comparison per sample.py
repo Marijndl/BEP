@@ -47,45 +47,44 @@ def read_file(file):
             cond.append(float(result[2]) * eps0 * 2 * pi * float(result[0]))
     return freq, cond
 
-
-if __name__ == "__main__":
-    # assign directory and initiate dictionaries
-    directory = 'C:\\Users\\20203226\\OneDrive - TU Eindhoven\\Bachelor end project - BEP\\230510\\Round2\\'
-    samples_dict = {}
-
+def make_df(directory, samples_dict):
     # iterate over files in that directory
     for filename in os.listdir(directory):
         f = os.path.join(directory, filename)
         # checking if it is a file
         if os.path.isfile(f):
             print(filename)
-            #format the name of the file and get the frequency and conductivity
+            # format the name of the file and get the frequency and conductivity
             fname_splitted = filename.replace('.', '_').split('_')
             freq, cond = read_file(f)
 
-            #add the measurements of the different sample to the dictionairy
+            # add the measurements of the different sample to the dictionairy
             sample_number = int(fname_splitted[1][1:])
             if sample_number not in samples_dict:
                 samples_dict[sample_number] = {'Frequency': freq, fname_splitted[2]: cond}
             else:
                 samples_dict[sample_number][fname_splitted[2]] = cond
+    return samples_dict
 
-    #initiate dataframes that contain the means and standard deviation of all sample for all frequencies.
-    all_samples_mean = {'Frequency': samples_dict[1]['Frequency']}
-    all_samples_std = {'Frequency': samples_dict[1]['Frequency']}
-
-    # Plotting:
-    fig = plt.figure(figsize=(30, 30))
-
+def plot_df(samples_dict, all_samples_mean, all_samples_std):
     for name, dict_ in samples_dict.items(): #Loop over all the samples
         #make a dataframe from the dictionary obtained
         df = pd.DataFrame(dict_).set_index('Frequency')
 
         # calculate and store the mean and stand deviation of the sample's dataframe
         df['mean'] = df.mean(axis=1)
-        all_samples_mean[name] = df['mean'].tolist()
         df['standard deviation'] = df.loc[:, df.columns != 'mean'].std(axis=1)
-        all_samples_std[name] = df['standard deviation'].tolist()
+
+        if name in all_samples_mean:
+            temp_array = np.array([all_samples_mean[name], df['mean'].tolist()])
+            all_samples_mean[name] = np.average(temp_array, axis=0)
+
+            temp_array_std = np.array([all_samples_std[name], df['standard deviation'].tolist()])
+            all_samples_std[name] = np.average(temp_array_std, axis=0)
+
+        else:
+            all_samples_mean[name] = df['mean'].tolist()
+            all_samples_std[name] = df['standard deviation'].tolist()
 
         #PLot the first three measurements of the sample
         ax = plt.subplot(4, 4, int(name))
@@ -98,10 +97,10 @@ if __name__ == "__main__":
         coeff = np.flip(coeff)
 
         # Make the fitting work for all orders
-        y_fit = [0] * len(df.index)
+        y_fit = [0]*len(df.index)
         for order in range(len(coeff)):
             y_fit = y_fit + coeff[order] * (df.index ** order)
-        ax.plot(df.index, y_fit)
+        ax.plot(df.index, y_fit, '--')
 
         # Formatting
         ax.title.set_text("Sample " + str(name) + ": " + samples_salt[name])
@@ -109,28 +108,47 @@ if __name__ == "__main__":
         plt.ylabel('Conductivity [S/m]')
         plt.legend(['M1', 'M2', 'M3', 'mean fitted'])
 
+if __name__ == "__main__":
+    # assign directory and initiate dictionaries
+    directory_R1 = 'C:\\Users\\20203226\\OneDrive - TU Eindhoven\\Bachelor end project - BEP\\230510\\Round1\\'
+    directory_R2 = 'C:\\Users\\20203226\\OneDrive - TU Eindhoven\\Bachelor end project - BEP\\230510\\Round2\\'
+    samples_dict_R1 = {}
+    samples_dict_R2 = {}
+
+    samples_dict_R1 = make_df(directory_R1, samples_dict_R1)
+    samples_dict_R2 = make_df(directory_R2, samples_dict_R2)
+
+    #initiate dataframes that contain the means and standard deviation of all sample for all frequencies.
+    all_samples_mean = {'Frequency': samples_dict_R1[1]['Frequency']}
+    all_samples_std = {'Frequency': samples_dict_R1[1]['Frequency']}
+
+    # Plotting:
+    fig = plt.figure(figsize=(30, 30))
+    plot_df(samples_dict_R1,all_samples_mean,all_samples_std)
+    plot_df(samples_dict_R2,all_samples_mean,all_samples_std)
+
+
     fig.show()
-    fig.savefig('Round_2_v2.png')
+    fig.savefig('Round_1_vs_2_persample.png')
 
     # Mean and standarad deviation from all samples at all frequencies stored to csv file
     df_all_samples_mean = pd.DataFrame(all_samples_mean).set_index('Frequency')
     df_all_samples_mean = df_all_samples_mean.reindex(sorted(df_all_samples_mean.columns), axis=1)
-    df_all_samples_mean.to_csv('all_samples_mean2.csv', sep=';')
-
+    # df_all_samples_mean.to_csv('all_samples_mean.csv', sep=';')
+    #
     df_all_samples_std = pd.DataFrame(all_samples_std).set_index('Frequency')
     df_all_samples_std = df_all_samples_std.reindex(sorted(df_all_samples_std.columns), axis=1)
-    df_all_samples_std.to_csv('all_samples_std2.csv', sep=';')
+    # df_all_samples_std.to_csv('all_samples_std.csv', sep=';')
 
     # Make a figure with all the samples:
     fig2 = plt.figure(figsize=(15, 15))
     ax = plt.subplot(111)
     for sample in df_all_samples_mean.columns:
-        # Loop over all the samples
+        #Loop over all the samples
         yfit = df_all_samples_mean[sample]
         std_dev = df_all_samples_std[sample]
         mean_line, = ax.plot(yfit, label=str(sample), linewidth='2')
-        ax.fill_between(df_all_samples_mean.index, yfit - std_dev, yfit + std_dev,
-                        # Use the standard deviation to make the lines thicker.
+        ax.fill_between(df_all_samples_mean.index, yfit - std_dev, yfit + std_dev, #Use the standard deviation to make the lines thicker.
                         alpha=0.2, label='_nolegend_')
 
         # Fitting a line to the mean:
@@ -147,8 +165,8 @@ if __name__ == "__main__":
     plt.xlabel('Frequency [Mhz]')
     plt.ylabel('Conductivity [S/m]')
     plt.title('Frequency sweep of all samples, mean plus standard deviation')
-    plt.legend(list(df_all_samples_mean.columns))
+    plt.legend()
     fig2.show()
-    fig2.savefig('Round_2_all.png',dpi=200)
+    fig2.savefig('Round_1_all.png',dpi=200)
 
     pass

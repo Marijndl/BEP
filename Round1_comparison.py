@@ -128,16 +128,26 @@ if __name__ == "__main__":
         #Loop over all the samples
         yfit = df_all_samples_mean[sample]
         std_dev = df_all_samples_std[sample]
-        ax.plot(yfit)
+        mean_line, = ax.plot(yfit, label=str(sample), linewidth='2')
         ax.fill_between(df_all_samples_mean.index, yfit - std_dev, yfit + std_dev, #Use the standard deviation to make the lines thicker.
                         alpha=0.2, label='_nolegend_')
+
+        # Fitting a line to the mean:
+        coeff = np.polyfit(df_all_samples_mean.index, yfit, 2)
+        coeff = np.flip(coeff)
+
+        # Make the fitting work for all orders
+        mean_fit = [0] * len(df.index)
+        for order in range(len(coeff)):
+            mean_fit = mean_fit + coeff[order] * (df.index ** order)
+        ax.plot(df.index, mean_fit, '--', label='_nolegend_', linewidth='1', color=mean_line.get_color())
 
     # Plot formatting:
     plt.xlabel('Frequency [Mhz]')
     plt.ylabel('Conductivity [S/m]')
     plt.title('Frequency sweep of all samples, mean plus standard deviation')
-    plt.legend(list(df_all_samples_mean.columns))
+    plt.legend()
     fig2.show()
-    # fig2.savefig('Round_1_all.png',dpi=200)
+    fig2.savefig('Round_1_all.png',dpi=200)
 
     pass
