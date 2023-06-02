@@ -8,13 +8,15 @@ from scipy import ndimage
 import os
 
 sample = 15
-directory = 'C:\\Users\\20203226\\Documents\\GitHub\\BEP\\MRI results\\masks\\Round_1_TSE\\Sample_{}'.format(sample)
-path_phase = 'C:\\Users\\20203226\\Documents\\GitHub\\BEP\\MRI results\\1_TSE_tra_A.mat'
+
+directory = 'C:\\Users\\20203226\\Documents\\GitHub\\BEP\\MRI results\\masks\\Round_3_TSE\\Sample_{}'.format(sample)
+path_phase = 'C:\\Users\\20203226\\Documents\\GitHub\\BEP\\MRI results\\3_TSE_tra_A.mat'
 
 conductivites = np.array([])
 
 # iterate over files in that directory
 for filename in os.listdir(directory):
+
     f = os.path.join(directory, filename)
     
     mask = cv2.imread(f, cv2.IMREAD_GRAYSCALE)
