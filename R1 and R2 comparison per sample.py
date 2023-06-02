@@ -119,8 +119,8 @@ def plot_df(samples_dict, all_samples_mean, all_samples_std):
 
 if __name__ == "__main__":
     # assign directory and initiate dictionaries
-    directory_R1 = 'C:\\Users\\lolwi\\Documents\\GitHub\\BEP_VNA_data\\Round1'
-    directory_R2 = 'C:\\Users\\lolwi\\Documents\\GitHub\\BEP_VNA_data\\Round2'
+    directory_R1 = 'C:\\Users\\20203226\\OneDrive - TU Eindhoven\\Bachelor end project - BEP\\230510\\Round1\\'
+    directory_R2 = 'C:\\Users\\20203226\\OneDrive - TU Eindhoven\\Bachelor end project - BEP\\230510\\Round2\\'
     samples_dict_R1 = {}
     samples_dict_R2 = {}
 
