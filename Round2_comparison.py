@@ -5,22 +5,25 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-samples_salt = {1: '0.25 [S/m] - 1.5417 [g/l]',
-                2: '0.3 [S/m] - 1.8569 [g/l]',
-                3: '0.35 [S/m] - 2.1727 [g/l]',
-                4: '0.4 [S/m] - 2.4892 [g/l]',
-                5: '0.5 [S/m] - 3.1241 [g/l]',
-                6: '0.55 [S/m] - 3.4425 [g/l]',
-                7: '0.6 [S/m] - 3.7616 [g/l]',
-                8: '0.7 [S/m] - 4.4015 [g/l]',
-                9: '0.8 [S/m] - 5.0441 [g/l]',
-                10: '0.9 [S/m] - 5.6892 [g/l]',
-                11: '1 [S/m] - 6.337 [g/l]',
-                12: '1.25 [S/m] - 7.9677 [g/l]',
-                13: '1.5 [S/m] - 9.6147 [g/l]',
-                14: '1.75 [S/m] - 11.2782 [g/l]',
-                15: '2 [S/m] - 12.9584 [g/l]',
-                16: '2.5 [S/m] - 16.369 [g/l]'}
+samples_salt = {1: ['0.25 [S/m] ','- 1.5417 [g/l]'],
+                2: ['0.3 [S/m] ','- 1.8569 [g/l]'],
+                3: ['0.35 [S/m] ','- 2.1727 [g/l]'],
+                4: ['0.4 [S/m] ','- 2.4892 [g/l]'],
+                5: ['0.5 [S/m] ','- 3.1241 [g/l]'],
+                6: ['0.55 [S/m] ','- 3.4425 [g/l]'],
+                7: ['0.6 [S/m] ','- 3.7616 [g/l]'],
+                8: ['0.7 [S/m] ','- 4.4015 [g/l]'],
+                9: ['0.8 [S/m] ','- 5.0441 [g/l]'],
+                10: ['0.9 [S/m] ','- 5.6892 [g/l]'],
+                11: ['1 [S/m] ','- 6.337 [g/l]'],
+                12: ['1.25 [S/m] ','- 7.9677 [g/l]'],
+                13: ['1.5 [S/m] ','- 9.6147 [g/l]'],
+                14: ['1.75 [S/m] ','- 11.2782 [g/l]'],
+                15: ['2 [S/m] ','- 12.9584 [g/l]'],
+                16: ['2.5 [S/m] ','- 16.369 [g/l]']}
+
+colors = {1: '#1f77b4', 2: '#ff7f0e', 3: '#2ca02c', 4: '#d62728', 5: '#9467bd', 6: '#8c564b', 7: '#e377c2', 8: '#7f7f7f', 9: '#bcbd22', 10: '#17becf',
+          11: '#1f77b4', 12: '#ff7f0e', 13: '#2ca02c', 14: '#d62728', 15: '#9467bd', 16: '#8c564b'}
 
 eps0 = 8.8542e-12
 
@@ -57,7 +60,8 @@ def read_file(file):
 
 if __name__ == "__main__":
     # assign directory and initiate dictionaries
-    directory = 'C:\\Users\\lolwi\\Documents\\GitHub\\BEP_VNA_data\\Round2'
+    # directory = 'C:\\Users\\lolwi\\Documents\\GitHub\\BEP_VNA_data\\Round2'
+    directory = 'C:\\Users\\20203226\\OneDrive - TU Eindhoven\\Bachelor end project - BEP\\230510\\Round2'
     samples_dict = {}
 
     # iterate over files in that directory
@@ -111,7 +115,7 @@ if __name__ == "__main__":
         ax.plot(df.index, y_fit)
 
         # Formatting
-        ax.title.set_text("Sample " + str(name) + ": " + samples_salt[name])
+        ax.title.set_text("Sample " + str(name) + ": " + samples_salt[name][0] + samples_salt[name][1])
         plt.xlabel('Frequency [Mhz]')
         plt.ylabel('Conductivity [S/m]')
         plt.legend(['M1', 'M2', 'M3', 'mean fitted'])
@@ -135,10 +139,10 @@ if __name__ == "__main__":
         # Loop over all the samples
         yfit = df_all_samples_mean[sample]
         std_dev = df_all_samples_std[sample]
-        mean_line, = ax.plot(yfit, label=str(sample), linewidth='2')
+        mean_line, = ax.plot(yfit, label=str(samples_salt[sample][0]), linewidth='2', color = colors[sample])
         ax.fill_between(df_all_samples_mean.index, yfit - std_dev, yfit + std_dev,
                         # Use the standard deviation to make the lines thicker.
-                        alpha=0.2, label='_nolegend_')
+                        alpha=0.2, label='_nolegend_', color= colors[sample])
 
         # Fitting a line to the mean:
         coeff = np.polyfit(df_all_samples_mean.index, yfit, 2)
@@ -151,6 +155,7 @@ if __name__ == "__main__":
         ax.plot(df.index, mean_fit, '--', label='_nolegend_', linewidth='1', color=mean_line.get_color())
 
     # Plot formatting:
+    plt.ylim(0.2,3)
     plt.xlabel('Frequency [Mhz]', fontsize=14)
     plt.ylabel('Conductivity [S/m]', fontsize=14)
     plt.title('Frequency sweep of all samples, mean plus standard deviation', fontsize=16)

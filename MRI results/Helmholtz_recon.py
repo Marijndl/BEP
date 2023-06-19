@@ -35,11 +35,11 @@ def Helmholtz(M, voxs=1e-3, ks = 3, eps_out = False):
 
 def Helmholtz_ph(M, voxs=1e-3, ks = 3):
     '''Calculates the conductivity with the phase based Helmholtz recon
-    and usnig a finite difference kernel 
+    and using a finite difference kernel 
     Parameters:
         M (Array):      phase to calculate conductivity from 
         voxs (float):   voxel size in m
-        ks (int):       kernel size, now implemented: 3, 773
+        ks (int):       kernel size, now implemented: 3, 7
 
     Returns:
         sigma (Array): Array with the calculated conductivty

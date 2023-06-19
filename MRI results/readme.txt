@@ -18,3 +18,9 @@ SE or TSE
 
 complete Helmholtz nog met b1plus mag erbij
 
+
+Notes Marijn:
+
+TSE + b1plus --> artifact in samples, does not make that much sense. Helmholtz gives much Nan values in return
+\
+
