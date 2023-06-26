@@ -115,15 +115,15 @@ if __name__ == "__main__":
         ax.plot(df.index, y_fit)
 
         # Formatting
-        ax.title.set_text("Sample " + str(name) + ": " + samples_salt[name][0] + samples_salt[name][1])
-        plt.xlabel('Frequency [Mhz]')
+        ax.title.set_text("Sample " + str(name) + ": " + samples_salt[name][1][2:] + " NaCl")
+        plt.xlabel('Frequency [MHz]')
         plt.ylabel('Conductivity [S/m]')
-        plt.legend(['M1', 'M2', 'M3', 'mean fitted'])
+        plt.legend(['M1', 'M2', 'M3', 'mean quadratic fit'])
 
     fig.show()
     fig.savefig('Round_2_v2.png')
 
-    # Mean and standarad deviation from all samples at all frequencies stored to csv file
+    # Mean and standard deviation from all samples at all frequencies stored to csv file
     df_all_samples_mean = pd.DataFrame(all_samples_mean).set_index('Frequency')
     df_all_samples_mean = df_all_samples_mean.reindex(sorted(df_all_samples_mean.columns), axis=1)
     df_all_samples_mean.to_csv('all_samples_mean2.csv', sep=';')
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     df_all_samples_std.to_csv('all_samples_std2.csv', sep=';')
 
     # Make a figure with all the samples:
-    fig2 = plt.figure(figsize=(8,8))
+    fig2 = plt.figure(figsize=(10,8))
     ax = plt.subplot(111)
     for sample in df_all_samples_mean.columns:
         # Loop over all the samples
@@ -156,11 +156,11 @@ if __name__ == "__main__":
 
     # Plot formatting:
     plt.ylim(0.2,3)
-    plt.xlabel('Frequency [Mhz]', fontsize=14)
+    plt.xlabel('Frequency [MHz]', fontsize=14)
     plt.ylabel('Conductivity [S/m]', fontsize=14)
-    plt.title('Frequency sweep of all samples, mean plus standard deviation', fontsize=16)
+    plt.title('Frequency sweep of all samples, mean plus standard deviation,\n batch 2', fontsize=16)
     plt.legend()
     fig2.show()
-    fig2.savefig('Round_2_all.png',dpi=200)
+    fig2.savefig('Round_2_all.png',dpi=300)
 
     pass

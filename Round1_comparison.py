@@ -5,22 +5,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-samples_salt = {1: ['0.25 [S/m] ','- 1.5417 [g/l]'],
-                2: ['0.3 [S/m] ','- 1.8569 [g/l]'],
-                3: ['0.35 [S/m] ','- 2.1727 [g/l]'],
-                4: ['0.4 [S/m] ','- 2.4892 [g/l]'],
-                5: ['0.5 [S/m] ','- 3.1241 [g/l]'],
-                6: ['0.55 [S/m] ','- 3.4425 [g/l]'],
-                7: ['0.6 [S/m] ','- 3.7616 [g/l]'],
-                8: ['0.7 [S/m] ','- 4.4015 [g/l]'],
-                9: ['0.8 [S/m] ','- 5.0441 [g/l]'],
-                10: ['0.9 [S/m] ','- 5.6892 [g/l]'],
-                11: ['1 [S/m] ','- 6.337 [g/l]'],
-                12: ['1.25 [S/m] ','- 7.9677 [g/l]'],
-                13: ['1.5 [S/m] ','- 9.6147 [g/l]'],
-                14: ['1.75 [S/m] ','- 11.2782 [g/l]'],
-                15: ['2 [S/m] ','- 12.9584 [g/l]'],
-                16: ['2.5 [S/m] ','- 16.369 [g/l]']}
+samples_salt = {1: ['0.25 [S/m] ','- 1.5417 [g/L]'],
+                2: ['0.3 [S/m] ','- 1.8569 [g/L]'],
+                3: ['0.35 [S/m] ','- 2.1727 [g/L]'],
+                4: ['0.4 [S/m] ','- 2.4892 [g/L]'],
+                5: ['0.5 [S/m] ','- 3.1241 [g/L]'],
+                6: ['0.55 [S/m] ','- 3.4425 [g/L]'],
+                7: ['0.6 [S/m] ','- 3.7616 [g/L]'],
+                8: ['0.7 [S/m] ','- 4.4015 [g/L]'],
+                9: ['0.8 [S/m] ','- 5.0441 [g/L]'],
+                10: ['0.9 [S/m] ','- 5.6892 [g/L]'],
+                11: ['1 [S/m] ','- 6.337 [g/L]'],
+                12: ['1.25 [S/m] ','- 7.9677 [g/L]'],
+                13: ['1.5 [S/m] ','- 9.6147 [g/L]'],
+                14: ['1.75 [S/m] ','- 11.2782 [g/L]'],
+                15: ['2 [S/m] ','- 12.9584 [g/L]'],
+                16: ['2.5 [S/m] ','- 16.369 [g/L]']}
 
 colors = {1: '#1f77b4', 2: '#ff7f0e', 3: '#2ca02c', 4: '#d62728', 5: '#9467bd', 6: '#8c564b', 7: '#e377c2', 8: '#7f7f7f', 9: '#bcbd22', 10: '#17becf',
           11: '#1f77b4', 12: '#ff7f0e', 13: '#2ca02c', 14: '#d62728', 15: '#9467bd', 16: '#8c564b'}
@@ -114,13 +114,13 @@ if __name__ == "__main__":
         ax.plot(df.index, y_fit)
 
         # Formatting
-        ax.title.set_text("Sample " + str(name) + ": " + samples_salt[name][0] + samples_salt[name][1])
-        plt.xlabel('Frequency [Mhz]')
+        ax.set_title("Sample " + str(name) + ": " + samples_salt[name][1][2:]+ " NaCl", fontsize=12)
+        plt.xlabel('Frequency [MHz]')
         plt.ylabel('Conductivity [S/m]')
-        plt.legend(['M1', 'M2', 'M3', 'mean fitted'])
+        plt.legend(['M1', 'M2', 'M3', 'mean quadratic fit'])
 
     fig.show()
-    # fig.savefig('Round_1_v2.png')
+    fig.savefig('Round_1_v2.png')
 
     # Mean and standarad deviation from all samples at all frequencies stored to csv file
     df_all_samples_mean = pd.DataFrame(all_samples_mean).set_index('Frequency')
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     df_all_samples_std.to_csv('all_samples_std.csv', sep=';')
 
     # Make a figure with all the samples:
-    fig2 = plt.figure(figsize=(8, 8))
+    fig2 = plt.figure(figsize=(10, 8))
     ax = plt.subplot(111)
     for sample in df_all_samples_mean.columns:
         #Loop over all the samples
@@ -154,11 +154,11 @@ if __name__ == "__main__":
 
     # Plot formatting:
     plt.ylim(0.2,3)
-    plt.xlabel('Frequency [Mhz]', fontsize=14)
+    plt.xlabel('Frequency [MHz]', fontsize=14)
     plt.ylabel('Conductivity [S/m]', fontsize=14)
-    plt.title('Frequency sweep of all samples, mean plus standard deviation', fontsize=16)
+    plt.title('Frequency sweep of all samples, mean plus standard deviation, \n batch 1', fontsize=16)
     plt.legend()
     fig2.show()
-    fig2.savefig('Round_1_all.png',dpi=200)
+    fig2.savefig('Round_1_all.png',dpi=300)
 
     pass

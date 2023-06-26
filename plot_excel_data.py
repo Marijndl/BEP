@@ -52,6 +52,7 @@ plt.ylabel('Conductivity [S/m]', fontsize=14)
 plt.title('Salt vs. conductivity, VNA 1 and 2,\n Stogryn and NYU models (20°C - 128 Mhz)', fontsize=16)
 plt.grid()
 plt.legend(['VNA B1 & B2 mean','Mean VNA fit','Stogryn', 'NYU'])
+fig2.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.9, wspace=0.2, hspace=0.2)
 fig2.show()
 fig2.savefig('Salt_vs_cond.png',dpi=300)
 
@@ -87,7 +88,7 @@ fig3.savefig('VNA vs MRI.png',dpi=300)
 print(corr1_1)
 
 
-fig4 = plt.figure(figsize=(7.2,6))
+fig4 = plt.figure(figsize=(6,5))
 cond_R1 = [x + 0.1851 for x in cond_R1]
 cond_R2 = [x + 0.1851 for x in cond_R2]
 trend_R1 = np.polyfit(salts_R1, cond_R1, 1)
@@ -273,12 +274,12 @@ ax1.set_ylim(-0.2,2.5)
 
 ax2 = plt.subplot(132)
 
-ax2.plot(salts_MRI, trend_MRI1_1(salts_MRI), label='MRI B1.1 fitted',marker='o', color='blue')
-ax2.plot(salts_MRI, trend_MRI1_2(salts_MRI), label='MRI B1.2 fitted',marker='s', color='green')
-ax2.plot(salts_MRI, trend_MRI2(salts_MRI), label='MRI B3 fitted'    ,marker='v', color='darkcyan')
+ax2.plot(salts_MRI, trend_MRI1_1(salts_MRI), label='MRI B1.1 fitted, not corrected',marker='o', color='blue')
+ax2.plot(salts_MRI, trend_MRI1_2(salts_MRI), label='MRI B1.2 fitted, not corrected',marker='s', color='green')
+ax2.plot(salts_MRI, trend_MRI2(salts_MRI),   label='MRI B3 fitted, not corrected'  ,marker='v', color='darkcyan')
 ax2.plot(salts_R1, trend_VNA_mean(salts_R1), label='Mean VNA fitted'   ,marker='x', color='red')
 # ax2.plot(salts_R1, trend_VNA_mean_85(salts_R1), label='Mean VNA sigma comp'   ,marker='x', color='tomato')
-ax2.plot(salts_MRI, trend_MRI1_1_comp(salts_MRI), label='MRI B1.1 + $σ_{z}$'   ,marker='o', color='deepskyblue')
+ax2.plot(salts_MRI, trend_MRI1_1_comp(salts_MRI), label='MRI B1.1, $σ_{z}$ corrected'   ,marker='o', color='deepskyblue')
 ax2.legend()
 ax2.grid()
 ax2.set_ylim(-0.2,2.5)
