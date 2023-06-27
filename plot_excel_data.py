@@ -47,14 +47,14 @@ ax.fill_between(salts_R1, Stogryn_19,Stogryn_21, #Use the standard deviation to 
 ax.plot(salts_R1, NYU, marker='o', markersize=3, color='grey')
 # ax.set_xscale('log')
 
-plt.xlabel('Salt [g/L]', fontsize=14)
+plt.xlabel('NaCl [g/L]', fontsize=14)
 plt.ylabel('Conductivity [S/m]', fontsize=14)
-plt.title('Salt vs. conductivity, VNA 1 and 2,\n Stogryn and NYU models (20°C - 128 Mhz)', fontsize=16)
+plt.title('NaCl vs. conductivity, VNA B1 and B2,\n Stogryn and NYU models (20°C - 128 Mhz)', fontsize=16)
 plt.grid()
 plt.legend(['VNA B1 & B2 mean','Mean VNA fit','Stogryn', 'NYU'])
 fig2.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.9, wspace=0.2, hspace=0.2)
 fig2.show()
-fig2.savefig('Salt_vs_cond.png',dpi=300)
+fig2.savefig('figures results/NaCl_vs_cond.png',dpi=300)
 
 
 #Final comparison:
@@ -78,13 +78,13 @@ ax2.errorbar(salts_MRI, R2['cond'], yerr=R2['std']      , elinewidth=1, capsize=
 ax2.plot(salts_R1[:-1], mean_cond[:-1], 'o-',markersize=6, linewidth=2, label='VNA mean')
 
 fig3.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.9, wspace=0.2, hspace=0.2)
-plt.xlabel('Salt [g/L]', fontsize=14)
+plt.xlabel('NaCl [g/L]', fontsize=14)
 plt.ylabel('Conductivity [S/m]', fontsize=14)
-plt.title('Salt vs. conductivity, VNA 1 and 2,\n MRI 1.1, 1.2, 2 (20°C - 128 Mhz)', fontsize=16)
+plt.title('NaCl vs. conductivity, VNA B1 and B2,\n MRI 1.1, 1.2, 2 (20°C - 128 Mhz)', fontsize=16)
 plt.grid()
 plt.legend()
 fig3.show()
-fig3.savefig('VNA vs MRI.png',dpi=300)
+fig3.savefig('figures results/VNA vs MRI.png',dpi=300)
 print(corr1_1)
 
 
@@ -99,19 +99,19 @@ print(trend_R2)
 trend_R2 = np.poly1d(trend_R2)
 
 ax3 = plt.subplot(111)
-ax3.errorbar(salts_R1, cond_R1, yerr=std_VNA_1, elinewidth=1, capsize=2.5, fmt='o', capthick=2, label='VNA 1', color='red')
-ax3.errorbar(salts_R2, cond_R2, yerr=std_VNA_2, elinewidth=1, capsize=2.5, fmt='s', capthick=2, label='VNA 2', color='orange')
+ax3.errorbar(salts_R1, cond_R1, yerr=std_VNA_1, elinewidth=1, capsize=2.5, fmt='o', capthick=2, label='VNA B1', color='red')
+ax3.errorbar(salts_R2, cond_R2, yerr=std_VNA_2, elinewidth=1, capsize=2.5, fmt='s', capthick=2, label='VNA B2', color='orange')
 ax3.plot(salts_R1, trend_R1(salts_R1), color='red')
 ax3.plot(salts_R1, trend_R2(salts_R1), color='orange')
 
 #Formatting
-plt.title('Salt vs. conductivity, VNA 1 and 2,\n mean, standard deviation and fit (20°C - 128 Mhz)', fontsize=16)
-plt.xlabel('Salt [g/L]', fontsize=14)
+plt.title('NaCl vs. conductivity, VNA B1 and B2,\n mean, standard deviation and fit (20°C - 128 Mhz)', fontsize=16)
+plt.xlabel('NaCl [g/L]', fontsize=14)
 plt.ylabel('Conductivity [S/m]', fontsize=14)
 fig4.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.9, wspace=0.2, hspace=0.2)
 plt.grid()
 plt.legend()
-fig4.savefig('VNA 1 vs VNA 2.png',dpi=300)
+fig4.savefig('figures results/VNA 1 vs VNA 2.png',dpi=300)
 fig4.show()
 
 
@@ -190,7 +190,7 @@ plt.ylim(-0.2,2.5)
 plt.grid()
 plt.legend()
 fig5.show()
-fig5.savefig('VNA vs MRI steps 2.png',dpi=300)
+fig5.savefig('figures results/VNA vs MRI steps 2.png',dpi=300)
 
 
 
@@ -224,7 +224,7 @@ fig5.savefig('VNA vs MRI steps 2.png',dpi=300)
 # plt.grid()
 # plt.legend()
 # fig5.show()
-# fig5.savefig('VNA vs MRI.png',dpi=300)
+# fig5.savefig('figures results/VNA vs MRI.png',dpi=300)
 
 
 ### comparing VNA to MRI and correction explanation inbetween:
@@ -252,7 +252,8 @@ trend_VNA_mean_85 = np.poly1d(trend_VNA_mean_85)
 cond_MRI1_1_comp = [x/0.78 for x in R1_1['cond']]
 trend_MRI1_1_comp = np.polyfit(salts_MRI, cond_MRI1_1_comp, 1)
 trend_MRI1_1_comp = np.poly1d(trend_MRI1_1_comp)
-
+print("Compensated 22%:")
+print(cond_MRI1_1_comp)
 fig6 = plt.figure(figsize=(3*7.2,6))
 
 corr1_1 = [x * -0.0295 - 0.0466 for x in salts_MRI]
@@ -265,9 +266,9 @@ ax1.errorbar(salts_MRI, R2['cond'], yerr=R2['std']      , elinewidth=1, capsize=
 ax1.plot(salts_R1[:-1], mean_cond[:-1], 'o-',markersize=6, linewidth=2, label='VNA mean', color='red')
 
 fig3.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.9, wspace=0.2, hspace=0.2)
-ax1.set_xlabel('Salt [g/L]', fontsize=14)
+ax1.set_xlabel('NaCl [g/L]', fontsize=14)
 ax1.set_ylabel('Conductivity [S/m]', fontsize=14)
-ax1.set_title('Salt vs. conductivity, VNA mean,\n MRI B1.1, B1.2, B3 (20°C - 128 Mhz)', fontsize=16)
+ax1.set_title('NaCl vs. conductivity, VNA mean,\n MRI B1.1, B1.2, B3 (20°C - 128 Mhz)', fontsize=16)
 ax1.grid()
 ax1.legend()
 ax1.set_ylim(-0.2,2.5)
@@ -283,8 +284,8 @@ ax2.plot(salts_MRI, trend_MRI1_1_comp(salts_MRI), label='MRI B1.1, $σ_{z}$ corr
 ax2.legend()
 ax2.grid()
 ax2.set_ylim(-0.2,2.5)
-ax2.set_xlabel('Salt [g/L]', fontsize=14)
-ax2.set_title('VNA vs MRI conductivity, fitted\n (20°C - 128 Mhz)', fontsize=16)
+ax2.set_xlabel('NaCl [g/L]', fontsize=14)
+ax2.set_title('NaCl vs. VNA and MRI conductivity, fitted\n (20°C - 128 Mhz)', fontsize=16)
 
 corr1_1 = [x * -0.0346 - 0.0208 for x in salts_MRI]
 print(corr1_1)
@@ -300,13 +301,13 @@ ax3.errorbar(salts_MRI, R2['cond'], yerr=R2['std']      , elinewidth=1, capsize=
 ax3.plot(salts_R1[:-1], mean_cond[:-1], 'o-',markersize=6, linewidth=2, label='VNA mean', color='red')
 
 fig3.subplots_adjust(left=0.1, bottom=0.1, right=0.9, top=0.9, wspace=0.2, hspace=0.2)
-ax3.set_xlabel('Salt [g/L]', fontsize=14)
+ax3.set_xlabel('NaCl [g/L]', fontsize=14)
 ax3.set_ylabel('Conductivity [S/m]', fontsize=14)
-ax3.set_title('Salt vs. conductivity, VNA mean,\n MRI B1.1, B1.2, B3 compensated (20°C - 128 Mhz)', fontsize=16)
+ax3.set_title('NaCl vs. conductivity, VNA mean,\n MRI B1.1, B1.2, B3 compensated (20°C - 128 Mhz)', fontsize=16)
 ax3.grid()
 ax3.legend()
 ax3.set_ylim(-0.2,2.5)
 
 fig6.show()
-fig6.savefig('MRI and VNA sigma compensated 2.png',dpi=300)
+fig6.savefig('figures results/MRI and VNA sigma compensated 2.png',dpi=300)
 
