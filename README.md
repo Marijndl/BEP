@@ -23,6 +23,8 @@ $ pip install -r requirements.txt
 
 Furthermore, python version 3.9 was used to execute the scripts.
 
+## Licensing
+The code is licensed under the MIT license. The data is licensed under the CC0 license.
 
 ## Contact
 For any question on the code or project please contact:\
