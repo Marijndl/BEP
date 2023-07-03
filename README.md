@@ -7,7 +7,7 @@ In collaboration with UMCU ("universitair medisch centrum Utrecht"). Main goal: 
 Started 24-04-2023. 
 
 ## VNA results
-The files necessary to reproduce the VNA results can be found in this main directory, see Round1_comparison for example.
+The files necessary to reproduce the VNA results can be found in this VNA results directory, see Round1_comparison for example.
 
 ## MRI results
 The files necessary to reproduce the MRI results can be found in the folder MRI results. This also includes the different masks that were used to gather the voxels.
