@@ -119,8 +119,8 @@ def plot_df(samples_dict, all_samples_mean, all_samples_std):
 
 if __name__ == "__main__":
     # assign directory and initiate dictionaries
-    directory_R1 = 'C:\\Users\\20203226\\OneDrive - TU Eindhoven\\Bachelor end project - BEP\\230510\\Round1\\'
-    directory_R2 = 'C:\\Users\\20203226\\OneDrive - TU Eindhoven\\Bachelor end project - BEP\\230510\\Round2\\'
+    directory_R1 = 'VNA results/VNA data/230510/Round1'
+    directory_R2 = 'VNA results/VNA data/230510/Round2'
     samples_dict_R1 = {}
     samples_dict_R2 = {}
 
@@ -177,6 +177,6 @@ if __name__ == "__main__":
     plt.title('Frequency sweep of all samples, round 1 and 2,\n mean plus standard deviation', fontsize=16)
     plt.legend()
     fig2.show()
-    fig2.savefig('Round_1_2_all.png',dpi=200)
+    fig2.savefig('figures results/Round_1_2_all.png',dpi=200)
 
     pass

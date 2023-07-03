@@ -46,7 +46,7 @@ def interpolate(file):
 
 if __name__ == "__main__":
     # assign directory
-    directory = 'C:\\Users\\20203226\\OneDrive - TU Eindhoven\\Bachelor end project - BEP\\230510\\'
+    directory = 'VNA results/VNA data/230510/'
     file_names = []
     conductivities = []
     # iterate over files in that directory

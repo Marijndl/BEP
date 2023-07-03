@@ -39,7 +39,7 @@ def read_file(file):
 # Execute the script:
 if __name__ == "__main__":
     # assign directory
-    directory = 'VNA data/230510/Misc'
+    directory = 'VNA results/VNA data/230510/Misc'
     file_names = []
     dicts = {}
 

@@ -103,7 +103,7 @@ def read_file(file):
 # Execute the script:
 if __name__ == "__main__":
     # assign directory where data is stored:
-    directory = 'VNA data/230510/Round1'
+    directory = 'VNA results/VNA data/230510/Round1'
     # Initiate dictionairy to store all the results:
     samples_dict = {}
 
@@ -169,11 +169,11 @@ if __name__ == "__main__":
     # Mean and standarad deviation from all samples at all frequencies stored to csv file
     df_all_samples_mean = pd.DataFrame(all_samples_mean).set_index('Frequency')
     df_all_samples_mean = df_all_samples_mean.reindex(sorted(df_all_samples_mean.columns), axis=1)
-    df_all_samples_mean.to_csv('VNA results/all_samples_mean.csv', sep=';')
+    df_all_samples_mean.to_csv('VNA results/VNA results csv/all_samples_mean.csv', sep=';')
 
     df_all_samples_std = pd.DataFrame(all_samples_std).set_index('Frequency')
     df_all_samples_std = df_all_samples_std.reindex(sorted(df_all_samples_std.columns), axis=1)
-    df_all_samples_std.to_csv('VNA results/all_samples_std.csv', sep=';')
+    df_all_samples_std.to_csv('VNA results/VNA results csv/all_samples_std.csv', sep=';')
 
     # Make a figure with all the samples:
     fig2 = plt.figure(figsize=(10, 8))
