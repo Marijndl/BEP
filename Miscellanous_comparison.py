@@ -36,11 +36,13 @@ def read_file(file):
     return freq, cond
 
 
+# Execute the script:
 if __name__ == "__main__":
     # assign directory
-    directory = 'C:\\Users\\20203226\\OneDrive - TU Eindhoven\\Bachelor end project - BEP\\230510\\Misc'
+    directory = 'VNA data/230510/Misc'
     file_names = []
     dicts = {}
+
     # iterate over files in that directory
     for filename in os.listdir(directory):
         f = os.path.join(directory, filename)
@@ -105,13 +107,5 @@ if __name__ == "__main__":
         counter += 1
 
     fig.show()
-    fig.savefig('Misc2_v2.png')
+    fig.savefig('figures results/Misc2_v2.png')
     pass
-a = '±'
-
-
-
-
-
-
-

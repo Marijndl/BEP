@@ -311,3 +311,52 @@ ax3.set_ylim(-0.2,2.5)
 fig6.show()
 fig6.savefig('figures results/MRI and VNA sigma compensated 2.png',dpi=300)
 
+# powerpoint figures:
+
+
+fig7 = plt.figure(figsize=(7.2,6))
+ax2 = plt.subplot(111)
+
+R1_1['cond'] = R1_1['cond'] + corr1_1
+R1_2['cond'] = R1_2['cond'] + corr1_1
+R2['cond'] = R2['cond'] + corr1_1
+
+ax2.errorbar(salts_MRI, R1_1['cond'], yerr=R1_1['std']  , elinewidth=1, capsize=2.5, fmt='o', capthick=2, label='MRI B1.1', color='blue')
+ax2.plot(salts_MRI, trend_MRI1_1(salts_MRI), label='MRI B1.1 fitted', color='blue', linestyle='dotted')
+ax2.errorbar(salts_MRI, R1_2['cond'], yerr=R1_1['std']  , elinewidth=1, capsize=2.5, fmt='s', capthick=2, label='MRI B1.2', color='green')
+ax2.plot(salts_MRI, trend_MRI1_2(salts_MRI), label='MRI B1.2 fitted', color='green', linestyle='dotted')
+# ax2.plot(salts_MRI, trend_MRI2(salts_MRI),   label='MRI B3 fitted, not corrected'  ,marker='v', color='darkcyan')
+# ax2.plot(salts_R1[:-1], trend_VNA_mean(salts_R1)[:-1], label='Mean VNA fitted'   ,marker='x', color='red')
+# ax2.plot(salts_R1, trend_VNA_mean_85(salts_R1), label='Mean VNA sigma comp'   ,marker='x', color='tomato')
+# ax2.plot(salts_MRI, trend_MRI1_1_comp(salts_MRI), label='MRI B1.1, $σ_{z}$ corrected'   ,marker='o', color='deepskyblue')
+ax2.legend()
+ax2.grid()
+ax2.set_ylim(-0.2,2.5)
+ax2.set_xlabel('NaCl [g/L]', fontsize=14)
+ax2.set_ylabel('Conductivity [S/m]', fontsize=14)
+
+fig7.show()
+fig7.savefig('figures results/exp4 fit lines.png',dpi=300)
+
+
+#----------------------------------------------
+
+fig8 = plt.figure(figsize=(7.2,6))
+ax2 = plt.subplot(111)
+
+ax2.errorbar(salts_MRI, R1_1['cond'], yerr=R1_1['std']  , elinewidth=1, capsize=2.5, fmt='o', capthick=2, label='MRI B1.1', color='blue')
+ax2.plot(salts_MRI, trend_MRI1_1(salts_MRI), label='MRI B1.1 fitted', color='blue', linestyle='dotted')
+ax2.errorbar(salts_MRI, R2['cond'], yerr=R2['std']  , elinewidth=1, capsize=2.5, fmt='s', capthick=2, label='MRI B3', color='darkcyan')
+ax2.plot(salts_MRI, trend_MRI2(salts_MRI), label='MRI B3 fitted', color='darkcyan', linestyle='dotted')
+# ax2.plot(salts_MRI, trend_MRI2(salts_MRI),   label='MRI B3 fitted, not corrected'  ,marker='v', color='darkcyan')
+# ax2.plot(salts_R1[:-1], trend_VNA_mean(salts_R1)[:-1], label='Mean VNA fitted'   ,marker='x', color='red')
+# ax2.plot(salts_R1, trend_VNA_mean_85(salts_R1), label='Mean VNA sigma comp'   ,marker='x', color='tomato')
+# ax2.plot(salts_MRI, trend_MRI1_1_comp(salts_MRI), label='MRI B1.1, $σ_{z}$ corrected'   ,marker='o', color='deepskyblue')
+ax2.legend()
+ax2.grid()
+ax2.set_ylim(-0.2,2.5)
+ax2.set_xlabel('NaCl [g/L]', fontsize=14)
+ax2.set_ylabel('Conductivity [S/m]', fontsize=14)
+
+fig8.show()
+fig8.savefig('figures results/exp5 fit lines.png',dpi=300)
